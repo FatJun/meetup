@@ -95,9 +95,9 @@ git clone git@github.com:FatJun/meetup.git
 TZ=Ваш_часовой_пояс_например_Europe/Moscow
 WEBHOOK_API_TOKEN=Сгеннерируйте_токен_сами_(uuidgen,_openssl)
 
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=Qwerty12345
-POSTGRES_DB=postgresDB
+POSTGRES_USER=YOUR_USERNAME
+POSTGRES_PASSWORD=YOUR_PASSWORD
+POSTGRES_DB=YOUR_POSTGRES_DB_NAME
 ```
 
 Переходим в директорию `meetup/client/src` в файл `consts.ts` в нем надо изменить константу `TZ` на свой часовой пояс
@@ -140,7 +140,7 @@ services:
       context: ./meetup/server/
     command: poetry run python3 -m telegram_bot.main
     environment:
-      - TELEGRAM_BOT_API_TOKEN=TOKEN  # Your telegram token
+      - TELEGRAM_BOT_API_TOKEN=YOUR_TELEGRAM_TOKEN
     ports:
       - "8001:8001"
     depends_on:
@@ -171,9 +171,9 @@ services:
   db:
     image: postgres
     environment:
-      - POSTGRES_USER=USERNAME  # Your postgres db name
-      - POSTGRES_PASSWORD=PASSWORD  # Your postgres db password
-      - POSTGRES_DB=POSTGRES_DB_NAME  # Your postgres db name
+      - POSTGRES_USER=YOUR_DB_USERNAME
+      - POSTGRES_PASSWORD=YOUR_DB_PASSWORD
+      - POSTGRES_DB=YOUR_DB_NAME
     ports:
       - "5432:5432"
 ```
