@@ -23,7 +23,7 @@ sudo apt update
 ```bash
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
 ```
-
+    
 Добавьте GPG ключ для официального репозитория `Docker`
 
 ```bash
@@ -86,7 +86,7 @@ docker-compose --version
 Клонируем репозиторий
 
 ```bash
-git clone https://github.com/
+$ git clone git@github.com:FatJun/meetup.git
 ```
 
 Переходим в директорию meetup/server в проекте, там нужно создать .env файл с вот такими переменными
