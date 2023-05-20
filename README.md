@@ -86,7 +86,7 @@ docker-compose --version
 Клонируем репозиторий
 
 ```bash
-$ git clone git@github.com:FatJun/meetup.git
+git clone git@github.com:FatJun/meetup.git
 ```
 
 Переходим в директорию meetup/server в проекте, там нужно создать .env файл с вот такими переменными
