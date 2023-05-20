@@ -89,17 +89,93 @@ docker-compose --version
 git clone git@github.com:FatJun/meetup.git
 ```
 
-Переходим в директорию meetup/server в проекте, там нужно создать .env файл с вот такими переменными
+Переходим в директорию `meetup/server` в проекте, там нужно создать `.env` файл с вот такими переменными
 
 ```dotenv
-TZ="% Ваш часовой пояс например Europe/Moscow %"
-WEBHOOK_API_TOKEN="% Сгеннерируйте токен сами (uuidgen, openssl) %"
+TZ=Ваш_часовой_пояс_например_Europe/Moscow
+WEBHOOK_API_TOKEN=Сгеннерируйте_токен_сами_(uuidgen,_openssl)
+
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=Qwerty12345
+POSTGRES_DB=postgresDB
 ```
 
-Переходим в директорию meetup/client/src в файл consts.ts в нем надо изменить константу `TZ` на свой часовой пояс
+Переходим в директорию `meetup/client/src` в файл `consts.ts` в нем надо изменить константу `TZ` на свой часовой пояс
 
 ```typescript
 export const TZ = "Eroupe/Moscow";
+```
+
+Настройка `docker-compose.yml`, он должен лежать в корневой папке 
+
+```.
+└── meetup
+    ├── docker-compose.yml
+    ├── .gitignore
+    ├── .babelrc
+    ├── README.md
+    └── meetup
+        ├── client
+        ├── server
+        └── ...
+```
+`docker-compose.yml`
+```docker-compose
+version: '3'
+
+services:
+  app:
+    build:
+      dockerfile: ./app.Dockerfile
+      context: ./meetup/server/
+    command: poetry run python3 -m app.main
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      
+  telegram-bot:
+    build:
+      dockerfile: ./telegram_bot.Dockerfile
+      context: ./meetup/server/
+    command: poetry run python3 -m telegram_bot.main
+    environment:
+      - TELEGRAM_BOT_API_TOKEN=TOKEN  # Your telegram token
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+      - celery-worker
+
+  celery-worker:
+    build:
+      dockerfile: ./celery_worker.Dockerfile
+      context: ./meetup/server/
+    command: poetry run celery -A scheduler worker --loglevel=info
+    depends_on:
+      - redis
+      
+  client:
+    build: ./meetup/client
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
+      
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+      
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=USERNAME  # Your postgres db name
+      - POSTGRES_PASSWORD=PASSWORD  # Your postgres db password
+      - POSTGRES_DB=POSTGRES_DB_NAME  # Your postgres db name
+    ports:
+      - "5432:5432"
 ```
 
 Дальше переходим к запуску проекта, нужно перейти в директорию проекта где находится файл `docker-compose.yml`
