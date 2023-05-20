@@ -1,0 +1,2 @@
+class MeetNotFounded(Exception):
+    pass
