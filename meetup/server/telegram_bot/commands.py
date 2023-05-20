@@ -1,12 +1,7 @@
-import datetime
-
-import pytz
 from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 from database.users import crud
-from scheduler.utils import sync_send_webhook
-from telegram_bot.app.webhooks import MeetCreated
 
 tg_router = Router()
 

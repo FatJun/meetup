@@ -1,8 +1,11 @@
 import os
+import dotenv
 
 from tortoise import Tortoise
 
 from . import models
+
+dotenv.load_dotenv()
 
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")

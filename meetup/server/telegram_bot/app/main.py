@@ -1,11 +1,13 @@
 import uvicorn
 from fastapi import FastAPI
+from . import dependencies as dp
+
 from .webhooks import WebHook, MeetCreated, MeetStarted, MeetStartWithinTenMinutes
 
 app = FastAPI()
 
 
-@app.post("/webhook")
+@app.post("/webhook", dependencies=[dp.validate_webhook_api_token])
 async def webhook_handler(action: dict) -> None:
     match action["action"]:
         case {"type": MeetCreated.type, "payload": payload}:

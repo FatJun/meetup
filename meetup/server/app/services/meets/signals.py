@@ -2,8 +2,8 @@ from typing import Type
 
 from tortoise.expressions import Q
 from tortoise.signals import post_save
-from app.services.utils import async_send_webhook
 from database.meets.models import Meet
+from utils import async_send_webhook
 
 
 @post_save(Meet)

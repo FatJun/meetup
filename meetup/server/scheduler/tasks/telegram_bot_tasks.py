@@ -1,5 +1,5 @@
-from ..celery import app
-from ..utils import sync_send_webhook
+from scheduler.celery import app
+from utils import sync_send_webhook
 
 
 @app.task

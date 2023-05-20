@@ -4,7 +4,7 @@ RUN apt-get update && pip3 install poetry
 
 COPY ./app /app/app
 COPY ./database /app/database
-COPY poetry.lock pyproject.toml config.py __init__.py .env /app/
+COPY poetry.lock pyproject.toml *.py .env /app/
 
 WORKDIR /app
 

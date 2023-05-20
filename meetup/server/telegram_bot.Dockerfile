@@ -5,7 +5,7 @@ RUN apt-get update && pip3 install poetry
 COPY ./telegram_bot /app/telegram_bot
 COPY ./database /app/database
 COPY ./scheduler /app/scheduler
-COPY poetry.lock pyproject.toml config.py __init__.py .env /app/
+COPY poetry.lock pyproject.toml *.py .env /app/
 
 WORKDIR /app
 
