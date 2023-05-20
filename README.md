@@ -120,7 +120,7 @@ export const TZ = "Eroupe/Moscow";
         └── ...
 ```
 `docker-compose.yml`
-```docker-compose
+```yaml
 version: '3'
 
 services:
