@@ -190,7 +190,7 @@ docker-compose up --build
 ---
 ### Список адресов проекта
 
-`http://localhost:3000/` - React Client
+`http://localhost:3000` - React Client
 
 `http://localhost:8000` - Server API
 
