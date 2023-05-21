@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Meet, User } from "../../../types";
 import API from "../../../api/API";
-import { GetCurrentActiveUserPayload } from "../../../api/responses";
+import { CurrentActiveUserPayload } from "../../../api/responses";
 
 interface UserState {
 	user?: User;
@@ -18,9 +18,8 @@ const initialState: UserState = {
 
 export const setCurrentActiveUser = createAsyncThunk(
 	"user/setCurrentActiveUser",
-	async (): Promise<GetCurrentActiveUserPayload> => {
-		const response: GetCurrentActiveUserPayload =
-			await API.getCurrentActiveUser();
+	async (): Promise<CurrentActiveUserPayload> => {
+		const response: CurrentActiveUserPayload = await API.getCurrentActiveUser();
 		return response;
 	}
 );

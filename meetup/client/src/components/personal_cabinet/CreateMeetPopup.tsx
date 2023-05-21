@@ -33,7 +33,8 @@ class CreateMeetPopup extends React.Component<
 		name: "",
 		description: "",
 		start_at: new Date(),
-		members: [this.props.currentUser.username],
+		members_usernames: [],
+		creator_id: 0,
 	};
 
 	async componentDidMount(): Promise<void> {
@@ -42,15 +43,17 @@ class CreateMeetPopup extends React.Component<
 	}
 	private handleSubmitForm = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { name, description, start_at, members } = this.state;
+		const { name, description, start_at, members_usernames } = this.state;
+		const { currentUser } = this.props;
 		const start_at_locale = moment(start_at).tz(TZ).toDate();
-		if (members === undefined) return;
-		else if (members.length < 1) return;
+		if (members_usernames === undefined) return;
+		else if (members_usernames.length < 1) return;
 		const meet: Meet | undefined = await API.createMeet({
 			name: name,
 			description: description,
 			start_at: start_at_locale,
-			members: members,
+			members_usernames: members_usernames,
+			creator_id: currentUser.id,
 		});
 		if (meet !== undefined) {
 			this.props.addMeet(meet);
@@ -74,10 +77,7 @@ class CreateMeetPopup extends React.Component<
 		const optionsArray = Array.from(selectedOptions);
 		if (name !== "members") return;
 		this.setState({
-			members: [
-				this.props.currentUser.username,
-				...optionsArray.map((option) => option.value),
-			],
+			members_usernames: optionsArray.map((option) => option.value),
 		});
 	};
 

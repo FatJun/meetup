@@ -8,9 +8,13 @@ from utils import async_send_webhook
 
 
 @post_save(Meet)
-async def send_meet_created_webhook(_: Type[Meet], instance: Meet, *args):
-    telegram_chat_ids = await instance.members.filter(~Q(telegram_chat_id=None)).values_list("telegram_chat_id",
-                                                                                             flat=True)
-    if len(telegram_chat_ids) >= 1:
-        await async_send_webhook("meet_created", meet_members_telegram_chat_ids=telegram_chat_ids,
-                                 meet_name=instance.name, meet_start_at=instance.start_at.isoformat())
+async def send_meet_created_webhook(_: Type[Meet], instance: Meet, created: bool, *args):
+    registered_in_telegram_members = instance.members.filter(Q(registered_in_telegram=True))
+    telegram_chat_ids: list[int] = await registered_in_telegram_members.values_list("telegram_chat_id", flat=True)
+    if created is True:
+        telegram_chat_ids.append(instance.creator.telegram_chat_id)
+    webhook_payload = {
+        "meet_members_telegram_chat_ids": telegram_chat_ids, "meet_start_at": instance.start_at.isoformat(),
+        "meet_name": instance.name,
+    }
+    await async_send_webhook("meet_created", **webhook_payload)

@@ -13,6 +13,8 @@ class User(Model):
     telegram_chat_id = fields.IntField(null=True, default=None)
     registered_in_telegram = fields.BooleanField(default=False)
 
+    meets = fields.ManyToManyRelation['models.Meet']
+
     class PydanticMeta:
         exclude = ["hashed_password"]
 

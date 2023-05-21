@@ -145,7 +145,6 @@ services:
       - "8001:8001"
     depends_on:
       - db
-      - celery-worker
 
   celery-worker:
     build:
@@ -154,6 +153,7 @@ services:
     command: poetry run celery -A scheduler worker --loglevel=info
     depends_on:
       - redis
+      - telegram-bot
       
   client:
     build: ./meetup/client

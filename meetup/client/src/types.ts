@@ -40,7 +40,8 @@ interface MeetCreate {
 	name: string;
 	description: string;
 	start_at: Date;
-	members: string[];
+	members_usernames: string[];
+	creator_id: number;
 }
 
 export type { User, UserCreate, UserLogin, Meet, MeetCreate };

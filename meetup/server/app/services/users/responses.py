@@ -12,14 +12,14 @@ class CurrentActiveUserResponse(BaseResponse):
     payload: Payload
 
 
-class GetUsersResponse(BaseResponse):
+class Users(BaseResponse):
     class Payload(BaseModel):
         users: list[UserSchema]
 
     payload: Payload
 
 
-class GetUserResponse(BaseResponse):
+class User(BaseResponse):
     class Payload(BaseModel):
         user: UserSchema
 

@@ -1,59 +1,48 @@
 import { Meet, User } from "../types";
 
-interface BaseResponse {
+export interface BaseResponse {
 	msg: string;
 	success: boolean;
 	status_code: number;
 	payload: object;
 }
 
-interface GetCurrentActiveUserResponse extends BaseResponse {
-	payload: GetCurrentActiveUserPayload;
+export interface CurrentActiveUserResponse extends BaseResponse {
+	payload: CurrentActiveUserPayload;
 }
 
-interface GetUsersResponse extends BaseResponse {
-	payload: GetUsersPayload;
+export interface UsersResponse extends BaseResponse {
+	payload: UsersPayload;
 }
 
-interface GetUserResponse extends BaseResponse {
-	payload: GetUserPayload;
+export interface UserResponse extends BaseResponse {
+	payload: UserPayload;
 }
 
-interface GetMeetsResponse extends BaseResponse {
-	payload: GetMeetsPayload;
+export interface MeetsResponse extends BaseResponse {
+	payload: MeetsPayload;
 }
-interface GetMeetResponse extends BaseResponse {
-	payload: GetMeetPayload;
+export interface MeetResponse extends BaseResponse {
+	payload: MeetPayload;
 }
 
-interface GetMeetPayload {
+export interface MeetPayload {
 	meet: Meet;
 }
 
-interface GetMeetsPayload {
+export interface MeetsPayload {
 	meets?: Meet[];
 }
 
-interface GetCurrentActiveUserPayload {
+export interface CurrentActiveUserPayload {
 	user?: User;
 	authenticated: boolean;
 }
 
-interface GetUsersPayload {
+export interface UsersPayload {
 	users: User[];
 }
 
-interface GetUserPayload {
+export interface UserPayload {
 	user: User;
 }
-
-export type {
-	GetMeetsResponse,
-	GetMeetResponse,
-	BaseResponse,
-	GetCurrentActiveUserResponse,
-	GetCurrentActiveUserPayload,
-	GetUsersResponse,
-	GetUsersPayload,
-	GetUserResponse,
-};

@@ -1,12 +1,13 @@
 import axios, { AxiosResponse } from "axios";
 import { Meet, MeetCreate, User, UserCreate, UserLogin } from "../types";
 import {
-	GetCurrentActiveUserResponse,
-	GetCurrentActiveUserPayload,
-	GetUsersResponse,
-	GetMeetsResponse,
-	GetMeetResponse,
 	BaseResponse,
+	CurrentActiveUserPayload,
+	CurrentActiveUserResponse,
+	MeetResponse,
+	MeetsResponse,
+	UserResponse,
+	UsersResponse,
 } from "./responses";
 class API {
 	private static domain = "http://localhost:8000";
@@ -22,11 +23,11 @@ class API {
 
 	public static createUser = async (userData: UserCreate): Promise<boolean> => {
 		try {
-			const response: BaseResponse = await axios.post(
+			const { data }: AxiosResponse<UserResponse> = await axios.post(
 				this.APIEndpoints.CreateUser,
 				userData
 			);
-			return response.success;
+			return data.success;
 		} catch (error) {
 			console.log(error);
 			return false;
@@ -37,7 +38,7 @@ class API {
 		meetData: MeetCreate
 	): Promise<Meet | undefined> => {
 		try {
-			const { data }: AxiosResponse<GetMeetResponse> = await axios.post(
+			const { data }: AxiosResponse<MeetResponse> = await axios.post(
 				this.APIEndpoints.CreateMeet,
 				meetData,
 				{ withCredentials: true }
@@ -81,15 +82,15 @@ class API {
 	};
 
 	public static getCurrentActiveUser =
-		async (): Promise<GetCurrentActiveUserPayload> => {
+		async (): Promise<CurrentActiveUserPayload> => {
 			try {
-				const { data }: AxiosResponse<GetCurrentActiveUserResponse> =
+				const { data }: AxiosResponse<CurrentActiveUserResponse> =
 					await axios.get(this.APIEndpoints.GetCurrentActiveUser, {
 						withCredentials: true,
 					});
 				return data.payload;
 			} catch (error) {
-				const payload: GetCurrentActiveUserPayload = {
+				const payload: CurrentActiveUserPayload = {
 					user: undefined,
 					authenticated: false,
 				};
@@ -99,7 +100,7 @@ class API {
 
 	public static getUsers = async (): Promise<User[]> => {
 		try {
-			const { data }: AxiosResponse<GetUsersResponse> = await axios.get(
+			const { data }: AxiosResponse<UsersResponse> = await axios.get(
 				this.APIEndpoints.GetUsers,
 				{ withCredentials: true }
 			);
@@ -111,7 +112,7 @@ class API {
 
 	public static getCurrentActiveUserMeets = async (): Promise<Meet[]> => {
 		try {
-			const { data }: AxiosResponse<GetMeetsResponse> = await axios.get(
+			const { data }: AxiosResponse<MeetsResponse> = await axios.get(
 				this.APIEndpoints.GetCurrentActiveUserMeets,
 				{
 					withCredentials: true,
