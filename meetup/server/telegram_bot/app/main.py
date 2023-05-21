@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
-from . import dependencies as dp
 
-from .webhooks import WebHook, MeetCreated, MeetStarted, MeetStartWithinTenMinutes
+from . import dependencies as dp
+from . import webhooks
 
 app = FastAPI()
 
@@ -10,15 +10,15 @@ app = FastAPI()
 @app.post("/webhook", dependencies=[dp.validate_webhook_api_token])
 async def webhook_handler(action: dict) -> None:
     match action["action"]:
-        case {"type": MeetCreated.type, "payload": payload}:
-            webhook = MeetCreated(**payload)
-        case {"type": MeetStarted.type, "payload": payload}:
-            webhook = MeetStarted(**payload)
-        case {"type": MeetStartWithinTenMinutes.type, "payload": payload}:
-            webhook = MeetStartWithinTenMinutes(**payload)
+        case {"type": webhooks.MeetCreated.type, "payload": payload}:
+            webhook = webhooks.MeetCreated(**payload)
+        case {"type": webhooks.MeetStarted.type, "payload": payload}:
+            webhook = webhooks.MeetStarted(**payload)
+        case {"type": webhooks.MeetStartWithinTenMinutes.type, "payload": payload}:
+            webhook = webhooks.MeetStartWithinTenMinutes(**payload)
         case _:
             return
-    webhook: WebHook
+    webhook: webhooks.WebHook
     await webhook.execute()
 
 

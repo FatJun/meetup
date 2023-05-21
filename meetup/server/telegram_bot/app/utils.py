@@ -1,5 +1,4 @@
 import bcrypt
-
 from fastapi import HTTPException, Request
 
 from config import WEBHOOK_API_TOKEN

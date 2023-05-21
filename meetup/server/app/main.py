@@ -1,15 +1,13 @@
-import asyncio
-
 import tortoise
 import uvicorn
+from tortoise.contrib.fastapi import register_tortoise
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from tortoise.contrib.fastapi import register_tortoise
 
 from database.utils import init_db, close_db_connections
-from .services import routers
-from .config import origins
 from database.config import DATABASE_URL, MODULES
+from .config import origins
+from .services import routers
 
 
 app = FastAPI()

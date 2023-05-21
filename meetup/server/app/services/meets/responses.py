@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
+from app.services.responses import BaseResponse
 from .schemas import MeetSchema
-from ..responses import BaseResponse
 
 
 class GetMeetResponse(BaseResponse):

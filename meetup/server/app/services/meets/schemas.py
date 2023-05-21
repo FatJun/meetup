@@ -1,6 +1,7 @@
 from datetime import datetime
-from pydantic import BaseModel
+
 from tortoise.contrib.pydantic import pydantic_model_creator
+from pydantic import BaseModel
 
 from database.meets.models import Meet
 

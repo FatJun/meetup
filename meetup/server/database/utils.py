@@ -1,4 +1,5 @@
 from tortoise import Tortoise
+
 from .config import DATABASE_URL, MODULES
 
 

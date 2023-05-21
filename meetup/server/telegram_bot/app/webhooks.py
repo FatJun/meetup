@@ -2,9 +2,10 @@ import asyncio
 import datetime
 from abc import ABC, abstractmethod
 
+from asyncio_throttle import Throttler
+
 from config import TZ
 from telegram_bot.config import bot, TELEGRAM_MESSAGES_PER_SECOND_LIMIT
-from asyncio_throttle import Throttler
 from scheduler.tasks.telegram_bot_tasks import send_webhook_meet_start_within_ten_minutes, send_webhook_meet_started
 
 
