@@ -10,6 +10,7 @@ from database.users.models import User
 from database.users import crud, query
 from . import responses
 from . import schemas
+from . import forms
 
 router = APIRouter()
 prefix = "/users"
@@ -17,7 +18,7 @@ tags = ["users"]
 
 
 @router.post("/", response_model=responses.User)
-async def create_user(user_form: schemas.UserCreate):
+async def create_user(user_form: forms.UserCreate):
     hashed_password = Hasher.get_hashed_password(user_form.password)
     user = await crud.create_user(hashed_password=hashed_password, **user_form.dict())
     serialized_user = await schemas.UserSchema.from_tortoise_orm(user)

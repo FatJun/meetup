@@ -89,6 +89,8 @@ docker-compose --version
 git clone git@github.com:FatJun/meetup.git
 ```
 
+#### Настройка переменных среды
+
 Переходим в директорию `meetup/server` в проекте, там нужно создать `.env` файл с вот такими переменными
 
 ```dotenv
@@ -105,6 +107,8 @@ POSTGRES_DB=YOUR_POSTGRES_DB_NAME
 ```typescript
 export const TZ = "Eroupe/Moscow";
 ```
+
+#### Настройка docker-compose.yml
 
 Настройка `docker-compose.yml`, он должен лежать в корневой папке 
 
@@ -133,6 +137,8 @@ services:
       - "8000:8000"
     depends_on:
       - db
+    volumes:
+      - ./meetup/server/database/migrations:/app/database/migrations
       
   telegram-bot:
     build:
@@ -145,6 +151,8 @@ services:
       - "8001:8001"
     depends_on:
       - db
+    volumes:
+      - ./meetup/server/database/migrations:/app/database/migrations
 
   celery-worker:
     build:
@@ -176,16 +184,48 @@ services:
       - POSTGRES_DB=YOUR_DB_NAME
     ports:
       - "5432:5432"
+
+volumes:
+  migrations:
 ```
+
+#### Запуск проекта
 
 Дальше переходим к запуску проекта, нужно перейти в директорию проекта где находится файл `docker-compose.yml`
 
 ```bash
 cd meetup/
-docker-compose up --build
+```
+```bash
+docker-compose up -d
 ```
 
-Ждем окончательного запуска и можно пользоваться
+#### Настройка миграций
+
+При первом запуске нужно запустить команду `aerich init-db`
+
+```bash
+sudo docker-compose exec app poetry run aerich init-db
+```
+
+Дальше можете использовать `migrate`, `upgrade`, `downgrade` подставляя
+вместо %command% нужную команду.
+```bash
+sudo docker-compose exec app poetry run aerich %command%
+```
+
+Все миграции хранятся вот здесь
+
+```.
+└── meetup
+    ├── docker-compose.yml
+    ├── ...
+    └── meetup
+        └── server
+            └── database
+                └── migrations
+                    └── ...
+```
 
 ---
 ### Список адресов проекта
@@ -195,6 +235,8 @@ docker-compose up --build
 `http://localhost:8000` - Server API
 
 `http://localhost:8001` - Telegram Bot webhook handler  
+
+`http://localhost:5432` - Postgres Database
 
 ---
 
