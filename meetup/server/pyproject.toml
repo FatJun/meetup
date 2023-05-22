@@ -17,7 +17,12 @@ celery = {version = "^5.2.7"}
 redis = "^4.5.5"
 asyncio-throttle = "^1.0.2"
 requests = "^2.30.0"
+aerich = "^0.7.1"
 
+[tool.aerich]
+tortoise_orm = "database.config.TORTOISE_ORM"
+location = "./database/migrations"
+src_folder = "./."
 
 [build-system]
 requires = ["poetry-core"]

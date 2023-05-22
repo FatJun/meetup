@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from database.utils import init_db, close_db_connections
-from database.config import DATABASE_URL, MODULES
+from database.config import TORTOISE_ORM
 from .config import origins
 from .services import routers
 
@@ -20,8 +20,7 @@ app.add_middleware(
 )
 register_tortoise(
     app,
-    db_url=DATABASE_URL,
-    modules=MODULES,
+    config=TORTOISE_ORM,
     generate_schemas=True,
     add_exception_handlers=True
 )

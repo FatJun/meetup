@@ -1,17 +1,35 @@
 import os
 import dotenv
 
-from tortoise import Tortoise
-
-from . import models
-
 dotenv.load_dotenv()
 
 POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 POSTGRES_DB = os.getenv("POSTGRES_DB")
+TZ = os.getenv("TZ")
 
-DATABASE_URL = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@db:5432/{POSTGRES_DB}"
-MODULES = {"models": models}
-Tortoise.init_models(models, "models")
-pre_init_database = "Database pre-init"
+USERS_APP_MODELS = "database.users.models"
+MEETS_APP_MODELS = "database.meets.models"
+
+TORTOISE_ORM = {
+    "connections": {
+        "default": {
+            "engine": "tortoise.backends.asyncpg",
+            "credentials": {
+                "host": "db",
+                "port": "5432",
+                "user": POSTGRES_USER,
+                "password": POSTGRES_PASSWORD,
+                "database": POSTGRES_DB
+            }
+        }
+    },
+    "apps": {
+        "models": {
+            "models": ("aerich.models", MEETS_APP_MODELS, USERS_APP_MODELS,),
+            "default_connection": "default"
+        },
+    },
+    "use_tz": False,
+    "timezone": TZ,
+}
