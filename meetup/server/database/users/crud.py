@@ -16,7 +16,7 @@ async def register_user_in_telegram(username: str, telegram_chat_id: int) -> boo
     user = await get_user_by_username(username)
     if user is None:
         return False
-    elif user.registered_in_telegram is True:
+    elif user.registered_in_telegram:
         return True
     user.telegram_chat_id = telegram_chat_id
     user.registered_in_telegram = True

@@ -8,9 +8,8 @@ tg_router = Router()
 
 
 @tg_router.message(Command(commands=["start"]))
-async def command_start_handler(message: Message) -> None:
+async def command_start_handler(message: Message):
     is_user_registered = await crud.register_user_in_telegram(message.from_user.username, message.chat.id)
-    if is_user_registered is False:
-        await message.answer(f"Сначала зарегистрируйтесь на нашем сайте.")
-    elif is_user_registered is True:
-        await message.answer(f"Вы успешно подписались на уведомления о встречах!")
+    if not is_user_registered:
+        return await message.answer(f"Сначала зарегистрируйтесь на нашем сайте.")
+    await message.answer(f"Вы успешно подписались на уведомления о встречах!")
