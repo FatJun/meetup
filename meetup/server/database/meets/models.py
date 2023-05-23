@@ -10,7 +10,6 @@ class Meet(Model):
     created = fields.DatetimeField(auto_now_add=True)
     creator = fields.ForeignKeyField("models.User", related_name="meet")
     members = fields.ManyToManyField("models.User", related_name="meets")
-    test = fields.BooleanField(default=True, null=True)
 
     def __repr__(self):
         return self.name
