@@ -7,7 +7,7 @@ from types import ModuleType
 from fastapi import APIRouter
 
 
-def find_all_modules_path_in_services_by_name(module_name: str) -> Generator[pathlib.Path]:
+def find_all_modules_path_in_services_by_name(module_name: str) -> Generator[pathlib.Path, None, None]:
     services_path = pathlib.Path(__file__).parent.resolve()
     modules_paths = services_path.glob(f"**/{module_name}.py")
     return modules_paths
@@ -21,7 +21,7 @@ def get_module_relative_path_by_absolute_path(module_path: pathlib.Path) -> str:
 
 
 def get_and_import_valid_modules(module_name: str, *, validator: Callable[[ModuleType], bool] = None
-                                 ) -> Generator[ModuleType]:
+                                 ) -> Generator[ModuleType, None, None]:
     if not module_name.isidentifier():
         raise ValueError(f"Invalid {module_name=}")
     modules_paths = find_all_modules_path_in_services_by_name(module_name)
