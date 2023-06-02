@@ -184,9 +184,12 @@ services:
       - POSTGRES_DB=YOUR_DB_NAME
     ports:
       - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
 volumes:
   migrations:
+  postgres-data:
 ```
 
 #### Запуск проекта
