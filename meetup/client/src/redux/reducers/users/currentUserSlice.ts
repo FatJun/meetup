@@ -1,7 +1,7 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Meet, User } from "../../../types";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Meet, User} from "../../../types";
 import API from "../../../api/API";
-import { CurrentActiveUserPayload } from "../../../api/responses";
+import {CurrentActiveUserPayload} from "../../../api/responses";
 
 interface UserState {
 	user?: User;
@@ -19,24 +19,21 @@ const initialState: UserState = {
 export const setCurrentActiveUser = createAsyncThunk(
 	"user/setCurrentActiveUser",
 	async (): Promise<CurrentActiveUserPayload> => {
-		const response: CurrentActiveUserPayload = await API.getCurrentActiveUser();
-		return response;
+		return await API.getCurrentActiveUser();
 	}
 );
 
 export const getCurrentActiveUserMeets = createAsyncThunk(
 	"user/getCurrentActiveUserMeets",
 	async (): Promise<Meet[]> => {
-		const response: Meet[] = await API.getCurrentActiveUserMeets();
-		return response;
+		return await API.getCurrentActiveUserMeets();
 	}
 );
 
 export const logoutCurrentUser = createAsyncThunk(
 	"user/logoutCurrentUser",
 	async (): Promise<boolean> => {
-		const response: boolean = await API.logoutCurrentUser();
-		return response;
+		return await API.logoutCurrentUser();
 	}
 );
 
@@ -54,7 +51,7 @@ export const currentUserSlice = createSlice({
 			state.authenticated = action.payload.authenticated;
 		});
 		builder.addCase(logoutCurrentUser.fulfilled, (state, action) => {
-			if (action.payload === true) state.user = undefined;
+			if (action.payload) state.user = undefined;
 			state.authenticated = !action.payload && state.authenticated; // if user not logged out authenticated will set true, but if only authenticated already were true (bad енглиш)
 		});
 		builder.addCase(getCurrentActiveUserMeets.fulfilled, (state, action) => {

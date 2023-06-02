@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import { Meet, MeetCreate, User, UserCreate, UserLogin } from "../types";
+import axios, {AxiosResponse} from "axios";
+import {Meet, MeetCreate, User, UserCreate, UserLogin} from "../types";
 import {
 	BaseResponse,
 	CurrentActiveUserPayload,
@@ -9,6 +9,7 @@ import {
 	UserResponse,
 	UsersResponse,
 } from "./responses";
+
 class API {
 	private static domain = "http://localhost:8000";
 	private static APIEndpoints = {
@@ -90,11 +91,10 @@ class API {
 					});
 				return data.payload;
 			} catch (error) {
-				const payload: CurrentActiveUserPayload = {
+				return {
 					user: undefined,
 					authenticated: false,
 				};
-				return payload;
 			}
 		};
 

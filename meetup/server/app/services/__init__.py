@@ -38,4 +38,4 @@ def get_and_import_valid_modules(module_name: str, *, validator: Callable[[Modul
 
 routers = get_and_import_valid_modules("api", validator=(
     lambda module: hasattr(module, "router") and isinstance(module.router, APIRouter)))
-signals = get_and_import_valid_modules("signals")
+signals = list(get_and_import_valid_modules("signals"))

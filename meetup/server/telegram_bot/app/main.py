@@ -9,9 +9,10 @@ app = FastAPI()
 
 @app.post("/webhook", dependencies=[dp.validate_webhook_api_token])
 async def webhook_handler(action: dict) -> None:
+    print(action)
     match action["action"]:
-        case {"type": webhooks.MeetCreatedNotify.type, "payload": payload}:
-            webhook = webhooks.MeetCreatedNotify(**payload)
+        case {"type": webhooks.MeetCreated.type, "payload": payload}:
+            webhook = webhooks.MeetCreated(**payload)
         case {"type": webhooks.MeetCreatedNotify.type, "payload": payload}:
             webhook = webhooks.MeetCreatedNotify(**payload)
         case {"type": webhooks.MeetStartedNotify.type, "payload": payload}:

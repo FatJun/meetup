@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "../types";
+import {Meet, User} from "../types";
 import { connect } from "react-redux";
 import { RootDispatch, RootState } from "../redux/store";
 import { setCurrentActiveUser } from "../redux/reducers/users/currentUserSlice";
@@ -13,6 +13,7 @@ import CreateMeetPopup from "../components/personal_cabinet/CreateMeetPopup";
 
 interface PersonalCabinetProps {
 	user?: User;
+	meets?: Meet[];
 	authenticated: boolean;
 }
 
@@ -52,7 +53,7 @@ class PersonalCabinet extends React.Component<
 		if (this.state.isLoading) {
 			return <div></div>;
 		}
-		const { user, authenticated } = this.props;
+		const { user, authenticated, meets } = this.props;
 		return authenticated && user !== undefined ? (
 			<div className="bg-pink-50 min-h-screen min-w-screen">
 				<Header />
@@ -72,7 +73,7 @@ class PersonalCabinet extends React.Component<
 							</div>
 						</div>
 						<span className="text-pink-900 text-xl uppercase font-bold mr-5">
-							Встречи: {user.meets?.length}
+							Встречи: {meets?.length}
 						</span>
 					</div>
 					<div className="flex flex-col w-full bg-white rounded-br-lg rounded-bl-lg mt-5 p-4">
@@ -118,6 +119,7 @@ class PersonalCabinet extends React.Component<
 
 const mapStateToProps = (state: RootState): PersonalCabinetProps => ({
 	user: state.currentUserReducer.user,
+	meets: state.currentUserReducer.meets,
 	authenticated: state.currentUserReducer.authenticated,
 });
 

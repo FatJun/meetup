@@ -14,6 +14,7 @@ class User(Model):
     registered_in_telegram = fields.BooleanField(default=False)
 
     meets = fields.ManyToManyRelation['models.Meet']
+    own_meets = fields.ForeignKeyRelation['models.Meet']
 
     class PydanticMeta:
         exclude = ["hashed_password"]

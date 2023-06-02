@@ -8,7 +8,7 @@ class Meet(Model):
     description = fields.CharField(max_length=500)
     start_at = fields.DatetimeField()
     created = fields.DatetimeField(auto_now_add=True)
-    creator = fields.ForeignKeyField("models.User", related_name="meet")
+    creator = fields.ForeignKeyField("models.User", related_name="own_meets")
     members = fields.ManyToManyField("models.User", related_name="meets")
 
     def __repr__(self):

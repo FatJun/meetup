@@ -26,5 +26,6 @@ async def create_meet(user: Annotated[User, dp.get_current_active_user], meet_fo
 
 @router.get("/current_active_user", response_model=responses.Meets)
 async def get_current_active_user_meets(user: Annotated[User, dp.get_current_active_user]):
+    serialized_own_meets = await schemas.MeetSchema.from_queryset(user.own_meets.all())
     serialized_meets = await schemas.MeetSchema.from_queryset(user.meets.all())
-    return generate_response(meets=serialized_meets)
+    return generate_response(meets=serialized_own_meets + serialized_meets)
